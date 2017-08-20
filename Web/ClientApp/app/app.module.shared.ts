@@ -9,27 +9,39 @@ import { NavMenuComponent } from './components/navmenu/navmenu.component';
 import { HomeComponent } from './components/home/home.component';
 import { FetchDataComponent } from './components/fetchdata/fetchdata.component';
 import { CounterComponent } from './components/counter/counter.component';
+import { LoginComponent } from './components/login/login-component';
+import { B2CConfigModule } from './b2c-config';
+import { AuthGuard } from './services/auth-guard.service';
+import { Auth } from './services/auth.service';
 
-@NgModule({
-    declarations: [
-        AppComponent,
-        NavMenuComponent,
-        CounterComponent,
-        FetchDataComponent,
-        HomeComponent
-    ],
-    imports: [
-        CommonModule,
-        HttpModule,
-        FormsModule,
-        RouterModule.forRoot([
-            { path: '', redirectTo: 'home', pathMatch: 'full' },
-            { path: 'home', component: HomeComponent },
-            { path: 'counter', component: CounterComponent },
-            { path: 'fetch-data', component: FetchDataComponent },
-            { path: '**', redirectTo: 'home' }
-        ])
-    ]
+@
+NgModule({
+	declarations: [
+		AppComponent,
+		NavMenuComponent,
+		CounterComponent,
+		FetchDataComponent,
+		HomeComponent,
+		LoginComponent
+	],
+	providers: [
+		AuthGuard,
+		Auth
+	],
+	imports: [
+		CommonModule,
+		HttpModule,
+		FormsModule,
+		B2CConfigModule,
+		RouterModule.forRoot([
+			{ path: '', redirectTo: 'home', pathMatch: 'full' },
+			{ path: 'home', component: HomeComponent },
+			{ path: 'login', component: LoginComponent },
+			{ path: 'counter', component: CounterComponent },
+			{ path: 'fetch-data', component: FetchDataComponent, canActivate: [AuthGuard] },
+			{ path: '**', redirectTo: 'home' }
+		])
+	]
 })
 export class AppModuleShared {
 }
